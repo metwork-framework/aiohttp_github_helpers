@@ -11,6 +11,7 @@
 ### Features
 
 * add a function to get combined status ([765278e](https://github.com/metwork-framework/aiohttp_github_helpers/commit/765278e))
+* add a function to get the reviews of a pullrequest ([f9c3494](https://github.com/metwork-framework/aiohttp_github_helpers/commit/f9c3494)), closes [#6](https://github.com/metwork-framework/aiohttp_github_helpers/issues/6)
 * add basic test support ([384422a](https://github.com/metwork-framework/aiohttp_github_helpers/commit/384422a))
 * add github_get_latest_commit function ([f9e7f8c](https://github.com/metwork-framework/aiohttp_github_helpers/commit/f9e7f8c))
 * add github_get_open_prs_by_sha function ([34fb4f2](https://github.com/metwork-framework/aiohttp_github_helpers/commit/34fb4f2))
