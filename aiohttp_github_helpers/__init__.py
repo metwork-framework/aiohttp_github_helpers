@@ -581,3 +581,41 @@ async def github_get_latest_commit(client_session, owner, repo, branch,
     except Exception:
         LOGGER.warning("can't get sha or compute age for url: %s" % url)
         return None
+
+
+async def github_get_pr_reviews(client_session, owner, repo, pr_number):
+    """
+    Get the reviews of a given pull-request.
+
+    Args:
+        client_session: aiohttp ClientSession.
+        owner: owner of the repository at github.
+        repo: repository name at github (without owner part).
+        pr_number (int): the pull-request number.
+
+    Returns:
+        list: list of reviews (each review is a dict with
+            user_login, state, and sha keys)
+
+    """
+    url = "%s/repos/%s/%s/pulls/%i/reviews" % (GITHUB_ROOT, owner, repo,
+                                               pr_number)
+    async with client_session.get(url) as r:
+        if r.status != 200:
+            LOGGER.warning("can't get the pr reviews on %s "
+                           "(status: %i)" % (r.url, r.status))
+            return None
+        try:
+            reply = await r.json()
+        except Exception:
+            LOGGER.warning("can't get the pr reviews on %s " % r.url)
+            return None
+        res = []
+        for review in reply:
+            tmp = {
+                "user_login": review['user']['login'],
+                "state": review['state'],
+                "sha": review['commit_id']
+            }
+            res.append(tmp)
+        return res

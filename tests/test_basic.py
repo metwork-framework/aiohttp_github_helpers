@@ -87,3 +87,14 @@ async def test_github_get_repo_topics():
                                                 TEST_OWNER, TEST_REPO)
         assert len(topics) > 1
         assert "testrepo" in topics
+
+
+@pytest.mark.asyncio
+async def test_github_get_pr_reviews():
+    async with ClientSession() as client_session:
+        reviews = await h.github_get_pr_reviews(client_session,
+                                                TEST_OWNER, TEST_REPO, 81)
+        assert len(reviews) == 1
+        assert reviews[0]['sha'] == '04c830ffccc17bb90119cd3a89a151faba63ec97'
+        assert reviews[0]['user_login'] == 'metworkbot'
+        assert reviews[0]['state'] == 'APPROVED'
